@@ -1,5 +1,3 @@
-let torchOn = false;
-
 const SUPPORTS_MEDIA_DEVICES = "mediaDevices" in navigator;
 let isTorchOn = false;
 let track = null;
@@ -43,7 +41,7 @@ export default function toggleTorch(onOrOff = null) {
         console.error("Error enumerating devices:", error);
       });
   } else {
-    applyTorch();
+    applyTorch(onOrOff);
   }
 }
 
@@ -59,4 +57,6 @@ function applyTorch(onOrOff = null) {
     .catch((error) => {
       console.error("Error applying torch constraints:", error);
     });
+
+  if (track && onOrOff == false) track = null;
 }
