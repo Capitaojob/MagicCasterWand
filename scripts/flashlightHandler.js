@@ -1,31 +1,92 @@
 let torchOn = false;
 
-export default async function toggleTorch(onOrOff = null) {
-  if (torchOn) {
-    if (onOrOff == true) return;
+const SUPPORTS_MEDIA_DEVICES = "mediaDevices" in navigator;
+let isTorchOn = false;
+let track = null;
 
-    // Turn off the flashlight
-    const track = stream.getVideoTracks()[0];
-    await track.applyConstraints({
-      advanced: [{ torch: false }],
-    });
-    track.stop();
-    torchOn = false;
-  } else {
-    if (onOrOff == false) return;
+export default function toggleTorch(onOrOff = null) {
+  if (!SUPPORTS_MEDIA_DEVICES) {
+    console.error("This device does not support media devices or is a mobile device.");
+    return;
+  }
 
-    try {
-      // Request camera access with torch mode
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "environment",
-          advanced: [{ torch: true }],
-        },
+  if (!track) {
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((devices) => {
+        const cameras = devices.filter((device) => device.kind === "videoinput");
+
+        if (cameras.length === 0) {
+          throw "No camera found on this device.";
+        }
+
+        const camera = cameras[cameras.length - 1];
+
+        navigator.mediaDevices
+          .getUserMedia({
+            video: {
+              deviceId: camera.deviceId,
+              facingMode: ["user", "environment"],
+              height: { ideal: 1080 },
+              width: { ideal: 1920 },
+            },
+          })
+          .then((stream) => {
+            track = stream.getVideoTracks()[0];
+            applyTorch(onOrOff);
+          })
+          .catch((error) => {
+            console.error("Error accessing the camera:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error enumerating devices:", error);
       });
-
-      torchOn = true;
-    } catch (err) {
-      console.error("Flashlight is not supported or permission denied:", err);
-    }
+  } else {
+    applyTorch();
   }
 }
+
+function applyTorch(onOrOff = null) {
+  track
+    .applyConstraints({
+      advanced: [{ torch: onOrOff ? onOrOff : !isTorchOn }],
+    })
+    .then(() => {
+      isTorchOn = onOrOff ? onOrOff : !isTorchOn;
+      console.log(`Torch is now ${onOrOff || isTorchOn ? "on" : "off"}.`);
+    })
+    .catch((error) => {
+      console.error("Error applying torch constraints:", error);
+    });
+}
+
+// export default async function toggleTorch(onOrOff = null) {
+//   if (torchOn) {
+//     if (onOrOff == true) return;
+
+//     // Turn off the flashlight
+//     const track = stream.getVideoTracks()[0];
+//     await track.applyConstraints({
+//       advanced: [{ torch: false }],
+//     });
+//     track.stop();
+//     torchOn = false;
+//   } else {
+//     if (onOrOff == false) return;
+
+//     try {
+//       // Request camera access with torch mode
+//       stream = await navigator.mediaDevices.getUserMedia({
+//         video: {
+//           facingMode: "environment",
+//           advanced: [{ torch: true }],
+//         },
+//       });
+
+//       torchOn = true;
+//     } catch (err) {
+//       console.error("Flashlight is not supported or permission denied:", err);
+//     }
+//   }
+// }
