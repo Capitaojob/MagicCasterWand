@@ -23,8 +23,8 @@ export function castSpell(spell) {
 
   playSpellSound(spell);
   if (isMobileDevice) {
-    if (spell.name.includes("lumos")) toggleTorch(true);
-    if (spell.name.includes("nox")) toggleTorch(false);
+    if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
+    if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
   }
 
   //triggerSmartHomeAction();
