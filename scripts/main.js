@@ -43,16 +43,3 @@ function resetWand() {
     });
   }, 400);
 }
-
-// Testing
-document.addEventListener("click", (e) => [
-  castSpell({
-    name: "Lumos",
-    description: "Illuminates the tip of the wand.",
-    difficulty: "0",
-    type: "Enchantment",
-    color: "#F0F0F0",
-    effect: "Generates light at the tip of the wand.",
-    continuum: true,
-  }),
-]);
