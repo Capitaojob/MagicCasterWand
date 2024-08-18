@@ -22,14 +22,16 @@ export function castSpell(spell) {
   wandGlow[1].style.filter = `drop-shadow( 0 0 50px ${spell.color})`;
 
   playSpellSound(spell);
-  if (isMobileDevice) toggleTorch(true);
+  if (isMobileDevice) {
+    if (spell.name.includes("lumos")) toggleTorch(true);
+    if (spell.name.includes("nox")) toggleTorch(false);
+  }
 
   //triggerSmartHomeAction();
 
   if (!spell.continuum) {
     setTimeout(() => {
       resetWand();
-      toggleTorch(false);
     }, 1200);
   }
 }
