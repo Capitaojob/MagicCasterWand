@@ -3,12 +3,13 @@ import { isMobileDevice } from "./main.js";
 export let spellRecognized = true;
 
 window.onload = function () {
-  if (isMobileDevice) {
-    // window.addEventListener("devicemotion", function (event) {
-    //   const { acceleration } = event;
-    //   console.log(event);
-    //   updateMotionValues(acceleration);
-    // });
+  if (isMobileDevice && false) {
+    //not yet implemented
+    window.addEventListener("devicemotion", function (event) {
+      const { acceleration } = event;
+      console.log(event);
+      updateMotionValues(acceleration);
+    });
   }
 };
 

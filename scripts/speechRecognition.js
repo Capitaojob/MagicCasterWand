@@ -1,7 +1,8 @@
-import { castSpell } from "./main.js";
+import { castSpell, resetWand } from "./main.js";
 import { spellRecognized } from "./movementTracking.js";
 import spells from "./spells.js";
 
+let foundSpell = false;
 export const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = "en-US";
 recognition.interimResults = false;
@@ -9,17 +10,20 @@ recognition.maxAlternatives = 1;
 
 recognition.onresult = function (event) {
   let command = event.results[0][0].transcript.toLowerCase();
-  console.log("Comando reconhecido:", command);
+  // console.log("Comando reconhecido:", command);
 
   command = fixSpelling(command);
 
   const matchedSpell = spells.find((spell) => command.includes(spell.name.toLowerCase()));
+  foundSpell = matchedSpell != null;
 
   if (matchedSpell && spellRecognized) castSpell(matchedSpell);
 };
 
 recognition.onend = () => {
-  recognition.start();
+  if (!foundSpell) {
+    resetWand();
+  }
 };
 
 function fixSpelling(spell) {

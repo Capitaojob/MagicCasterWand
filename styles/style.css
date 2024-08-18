@@ -73,9 +73,11 @@ main {
 .wand #idle-glow,
 .wand #full-glow {
   position: absolute;
-  fill: #00f7ff;
-  -webkit-filter: drop-shadow(0 0 10px #00f7ffbb);
-  filter: drop-shadow(0 0 10px #00f7ffbb);
+  fill: #00a2aa; /* 00f7ff */
+  /* -webkit-filter: drop-shadow(0 0 10px #000); */
+  /* filter: drop-shadow(0 0 10px #000); */
+  user-select: none;
+  pointer-events: none;
 }
 
 .wand #full-glow {
