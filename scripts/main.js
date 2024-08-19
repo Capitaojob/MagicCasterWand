@@ -65,10 +65,12 @@ export function castSpell(spell) {
 	isCurrentSpellContinuous = spell.continuum;
 
 	playSpellSound(spell);
-	// if (isMobileDevice) {
-	//   if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
-	//   if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
-	// }
+
+	// Toggles phone flashlight
+	if (isMobileDevice) {
+		if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
+		if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
+	}
 
 	if (!isCurrentSpellContinuous) {
 		setTimeout(() => {
