@@ -11,7 +11,7 @@ export default function startTracking() {
 
 export function stopTracking(matchedSpell) {
 	window.removeEventListener("devicemotion", handleDeviceMotion);
-	return comparePath(path, spells[matchedSpell.name]);
+	return comparePath(spells[matchedSpell.name]);
 }
 
 function handleDeviceMotion(event) {
@@ -25,18 +25,17 @@ export function comparePath(spell) {
 	const spellPath = spell.path;
 
 	// TESTING
-	path = debugMode
-		? [
-				[0.1, 0],
-				[0.3, 0.1],
-				[0.1, -0.1],
-				[0.3, 0],
-				[0.1, 0.2],
-				[0.2, 0.4],
-				[-0.1, 0.1],
-				[-0.1, 0],
-		  ]
-		: [];
+	if (debugMode)
+		path = [
+			[0.1, 0],
+			[0.3, 0.1],
+			[0.1, -0.1],
+			[0.3, 0],
+			[0.1, 0.2],
+			[0.2, 0.4],
+			[-0.1, 0.1],
+			[-0.1, 0],
+		];
 	// TESTING
 
 	// If spell does not have a defined path or if it is not a mobile device, check only spelling
