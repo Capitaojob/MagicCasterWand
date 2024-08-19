@@ -6,74 +6,78 @@ export let spellRecognized = false;
 const threshold = 0.2;
 
 export default function startTracking() {
-	window.addEventListener("devicemotion", handleDeviceMotion);
+  window.addEventListener("devicemotion", handleDeviceMotion);
 }
 
 export function stopTracking(matchedSpell) {
-	window.removeEventListener("devicemotion", handleDeviceMotion);
-	return comparePath(matchedSpell);
+  window.removeEventListener("devicemotion", handleDeviceMotion);
+  return comparePath(matchedSpell);
 }
 
 function handleDeviceMotion(event) {
-	if (!isRecording) return;
+  if (!isRecording) return;
 
-	const { x, y } = event.acceleration;
-	path.push([x, y]);
+  const { x, y } = event.acceleration;
+  path.push([x, y]);
 }
 
 export function comparePath(spell) {
-	const spellPath = spell.path;
+  const spellPath = spell.path;
 
-	// TESTING
-	if (debugMode)
-		path = [
-			[0.1, 0],
-			[0.3, 0.1],
-			[0.1, -0.1],
-			[0.3, 0],
-			[0.1, 0.2],
-			[0.2, 0.4],
-			[-0.1, 0.1],
-			[-0.1, 0],
-		];
-	// TESTING
+  // TESTING
+  if (debugMode)
+    path = [
+      [0.1, 0],
+      [0.3, 0.1],
+      [0.1, -0.1],
+      [0.3, 0],
+      [0.1, 0.2],
+      [0.2, 0.4],
+      [-0.1, 0.1],
+      [-0.1, 0],
+    ];
+  // TESTING
 
-	// If spell does not have a defined path or if it is not a mobile device, check only spelling
-	if (!spell.path || (!isMobileDevice && !debugMode)) return true;
+  // If spell does not have a defined path or if it is not a mobile device, check only spelling
+  if (!spell.path || (!isMobileDevice && !debugMode)) return true;
 
-	const normalizedPath = normalizePath(spellPath.length);
+  const normalizedPath = normalizePath(spellPath.length);
 
-	// TESTING
-	const wandMovementElement = document.getElementById("wand-movement");
-	normalizedPath.forEach((path, index) => {
-		const pathElement = document.createElement("h2");
-		pathElement.textContent = `X: ${path[0].toFixed(2)} | Y: ${path[1].toFixed(2)} -- X: ${spellPath[index][0].toFixed(2)} | Y: ${spellPath[index][1].toFixed(2)}`;
-		pathElement.style.display = "block";
-		wandMovementElement.appendChild(pathElement);
-	});
-	// TESTING
+  // TESTING
+  const wandMovementElement = document.getElementById("wand-movement");
+  normalizedPath.forEach((path, index) => {
+    const pathElement = document.createElement("h2");
+    // pathElement.textContent = `X: ${path[0].toFixed(2)} | Y: ${path[1].toFixed(2)} -- X: ${spellPath[index][0].toFixed(2)} | Y: ${spellPath[index][1].toFixed(2)}`;
+    pathElement.textContent = `X: ${path[0].toFixed(2)} | Y: ${path[1].toFixed(2)}`;
+    setTimeout(() => {
+      pathElement.textContent = "";
+    }, 5000);
+    pathElement.style.display = "block";
+    wandMovementElement.appendChild(pathElement);
+  });
+  // TESTING
 
-	return normalizedPath.every((step, i) => {
-		return Math.abs(Math.abs(step[0]) - Math.abs(spellPath[i][0])) < threshold && Math.abs(Math.abs(step[1]) - Math.abs(spellPath[i][1])) < threshold;
-	});
+  return normalizedPath.every((step, i) => {
+    return Math.abs(Math.abs(step[0]) - Math.abs(spellPath[i][0])) < threshold && Math.abs(Math.abs(step[1]) - Math.abs(spellPath[i][1])) < threshold;
+  });
 }
 
 function normalizePath(steps) {
-	const segmentSize = Math.floor(path.length / steps);
-	const normalizedPath = [];
+  const segmentSize = Math.floor(path.length / steps);
+  const normalizedPath = [];
 
-	for (let i = 0; i < steps; i++) {
-		let sumX = 0,
-			sumY = 0;
-		for (let j = 0; j < segmentSize; j++) {
-			const [x, y] = path[i * segmentSize + j];
-			sumX += x;
-			sumY += y;
-		}
-		normalizedPath.push([sumX / segmentSize, sumY / segmentSize]);
-	}
+  for (let i = 0; i < steps; i++) {
+    let sumX = 0,
+      sumY = 0;
+    for (let j = 0; j < segmentSize; j++) {
+      const [x, y] = path[i * segmentSize + j];
+      sumX += x;
+      sumY += y;
+    }
+    normalizedPath.push([sumX / segmentSize, sumY / segmentSize]);
+  }
 
-	return normalizedPath;
+  return normalizedPath;
 }
 
 // x+ = right
@@ -84,3 +88,5 @@ function normalizePath(steps) {
 // x+ y- = down right
 // x- y+ = up left
 // x- y- = down left
+
+// TODO: transform movement vectors into fixed angles on a cartesian plane (from 0 to 180, positives and negatives) and use that rule for comparisons

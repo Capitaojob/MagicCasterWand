@@ -1,5 +1,5 @@
 import { recognition } from "./speechRecognition.js";
-import playSpellSound from "./sounds.js";
+import playSpellSound, { playWandSound } from "./sounds.js";
 import toggleTorch from "./flashlightHandler.js";
 import startTracking from "./movementTracking.js";
 
@@ -11,74 +11,76 @@ export let isRecording = false;
 export let isCurrentSpellContinuous = false;
 
 window.onload = function () {
-	wand.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
-		readyWand();
-	});
+  wand.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
+    readyWand();
+  });
 };
 
 function readyWand() {
-	if (!isCurrentSpellContinuous) setWandAtReadyVisuals();
+  if (isRecording) return;
 
-	// Restarts speech recognition
-	recognition.stop();
-	recognition.start();
+  if (!isCurrentSpellContinuous) setWandAtReadyVisuals();
+  playWandSound("wand-ready");
 
-	// Sets control variable
-	setIsRecording(true);
+  // Restarts speech recognition
+  recognition.stop();
+  recognition.start();
 
-	// Tracks movement if is mobileDevice
-	if (isMobileDevice) startTracking();
+  // Sets control variable
+  setIsRecording(true);
+
+  // Tracks movement if is mobileDevice
+  if (isMobileDevice) startTracking();
 }
 
 function setWandAtReadyVisuals() {
-	wandGlow.forEach((glowElement) => {
-		glowElement.style.fill = "#00f7ff";
-		glowElement.style.filter = "drop-shadow( 0 0 10px #00f7ffbb)";
-	});
+  wandGlow.forEach((glowElement) => {
+    glowElement.style.fill = "#00f7ff";
+    glowElement.style.filter = "drop-shadow( 0 0 10px #00f7ffbb)";
+  });
 }
 
 export function resetWand() {
-	setTimeout(() => {
-		wandGlow[1].style.opacity = 0;
+  setTimeout(() => {
+    wandGlow[1].style.opacity = 0;
 
-		wandGlow.forEach((glowElement) => {
-			glowElement.style.fill = "#00a2aa";
-			glowElement.style.filter = "none";
-			// glowElement.style.fill = "#00f7ff";
-			// glowElement.style.filter = "drop-shadow( 0 0 10px #00f7ffbb)";
-		});
-	}, 400);
+    wandGlow.forEach((glowElement) => {
+      glowElement.style.fill = "#00a2aa";
+      glowElement.style.filter = "none";
+      document.getElementById("final-spell").textContent = "";
+    });
+  }, 400);
 }
 
 export function castSpell(spell) {
-	console.log(`Feitiço reconhecido: ${spell.name}`);
-	document.getElementById("final-spell").textContent = `${spell.name}!`;
+  console.log(`Feitiço reconhecido: ${spell.name}`);
+  document.getElementById("final-spell").textContent = `${spell.name}!`;
 
-	wandGlow[1].style.opacity = 1;
+  wandGlow[1].style.opacity = 1;
 
-	wandGlow[0].style.fill = spell.color;
-	wandGlow[0].style.filter = `drop-shadow( 0 0 30px ${spell.color})`;
+  wandGlow[0].style.fill = spell.color;
+  wandGlow[0].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
 
-	wandGlow[1].style.fill = spell.color;
-	wandGlow[1].style.filter = `drop-shadow( 0 0 50px ${spell.color})`;
+  wandGlow[1].style.fill = spell.color;
+  wandGlow[1].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
 
-	isCurrentSpellContinuous = spell.continuum;
+  isCurrentSpellContinuous = spell.continuum;
 
-	playSpellSound(spell);
+  playSpellSound(spell);
 
-	// Toggles phone flashlight
-	if (isMobileDevice) {
-		if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
-		if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
-	}
+  // Toggles phone flashlight
+  if (isMobileDevice) {
+    if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
+    if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
+  }
 
-	if (!isCurrentSpellContinuous) {
-		setTimeout(() => {
-			resetWand();
-		}, 1200);
-	}
+  if (!isCurrentSpellContinuous) {
+    setTimeout(() => {
+      resetWand();
+    }, 1200);
+  }
 }
 
 export function setIsRecording(value) {
-	isRecording = value;
+  isRecording = value;
 }
