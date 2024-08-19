@@ -11,7 +11,7 @@ export default function startTracking() {
 
 export function stopTracking(matchedSpell) {
 	window.removeEventListener("devicemotion", handleDeviceMotion);
-	return comparePath(spells[matchedSpell.name]);
+	return comparePath(matchedSpell);
 }
 
 function handleDeviceMotion(event) {

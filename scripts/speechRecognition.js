@@ -13,7 +13,7 @@ recognition.onresult = handleRecognitionResult;
 recognition.onend = () => {
 	if (!foundSpell) {
 		if (!isCurrentSpellContinuous && !debugMode) resetWand();
-		else if (debugMode) handleRecognitionResult({}, "expelliarmus");
+		else if (debugMode) handleRecognitionResult({}, "lumos");
 	}
 };
 
@@ -40,7 +40,9 @@ function handleRecognitionResult(event, testingSpellParam = null) {
 
 	stopTracking(matchedSpell);
 
-	if (foundSpell && comparePath(matchedSpell)) castSpell(matchedSpell);
+	if (foundSpell && comparePath(matchedSpell)) {
+		castSpell(matchedSpell);
+	}
 }
 
 function fixSpelling(spell) {
