@@ -69,7 +69,7 @@ const spells = [
   {
     name: "Avada Kedavra",
     description: "Causes instant death to the target.",
-    difficulty: "Extremely Difficult",
+    difficulty: "3",
     type: "Unforgivable Curse",
     color: "#00ff00",
     effect: "Instant death, without causing pain.",
@@ -78,7 +78,7 @@ const spells = [
   {
     name: "Crucio",
     description: "Causes intense pain to the target.",
-    difficulty: "Extremely Difficult",
+    difficulty: "3",
     type: "Unforgivable Curse",
     color: "#FF0000",
     effect: "Inflicts extreme pain, without causing permanent physical damage.",
@@ -87,7 +87,7 @@ const spells = [
   {
     name: "Imperio",
     description: "Controls the target's mind.",
-    difficulty: "Extremely Difficult",
+    difficulty: "3",
     type: "Unforgivable Curse",
     color: "#E5E4E2",
     effect: "Allows the caster to control the target's actions.",
