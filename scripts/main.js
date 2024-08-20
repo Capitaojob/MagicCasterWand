@@ -1,4 +1,4 @@
-import { recognition } from "./speechRecognition.js";
+import { recognition, setLanguage } from "./speechRecognition.js";
 import playSpellSound, { playWandSound } from "./sounds.js";
 import toggleTorch from "./flashlightHandler.js";
 import startTracking from "./movementTracking.js";
@@ -10,9 +10,16 @@ export const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 export let isRecording = false;
 export let isCurrentSpellContinuous = false;
 
+// General Initializations
 window.onload = function () {
+  setLanguage();
+
   wand.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
     readyWand();
+  });
+
+  wand.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
   });
 };
 
@@ -20,8 +27,7 @@ function readyWand() {
   if (isRecording) return;
 
   if (!isCurrentSpellContinuous) setWandAtReadyVisuals();
-  playWandSound("wand-ready");
-  // if (!isMobileDevice)
+  if (!isMobileDevice) playWandSound("wand-ready");
 
   // Restarts speech recognition
   recognition.stop();

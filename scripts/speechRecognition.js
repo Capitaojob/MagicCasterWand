@@ -3,9 +3,7 @@ import { comparePath, stopTracking } from "./movementTracking.js";
 import fixSpelling from "./spellNormalizing.js";
 import spells from "./spells.js";
 
-const knownLanguages = ["pt-BR", "en-US"];
-const language = knownLanguages.includes(navigator.language) ? navigator.language : knownLanguages[knownLanguages.length - 1];
-console.log("Using language " + language);
+let language;
 
 let foundSpell = false;
 export const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -47,4 +45,10 @@ function handleRecognitionEnd() {
 
   // Stops recording
   setIsRecording(false);
+}
+
+export function setLanguage() {
+  const knownLanguages = ["pt-BR", "en-US"];
+  language = knownLanguages.includes(navigator.language) ? navigator.language : knownLanguages[knownLanguages.length - 1];
+  document.getElementById("language").textContent = language;
 }
