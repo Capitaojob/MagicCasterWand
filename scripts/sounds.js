@@ -1,6 +1,6 @@
 const customSpellAudios = ["lumos", "nox"];
 
-export default function playSpellSound(spell, extension = ogg) {
+export default function playSpellSound(spell, extension = "ogg") {
   let currentSpellAudio = customSpellAudios.find((spellAudio) => spell.name.toLowerCase().includes(spellAudio));
   if (!currentSpellAudio) {
     currentSpellAudio = `generic${Math.random() > 0.5 ? "-2" : ""}`;

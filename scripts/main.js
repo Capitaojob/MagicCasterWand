@@ -21,6 +21,7 @@ function readyWand() {
 
   if (!isCurrentSpellContinuous) setWandAtReadyVisuals();
   playWandSound("wand-ready");
+  // if (!isMobileDevice)
 
   // Restarts speech recognition
   recognition.stop();
