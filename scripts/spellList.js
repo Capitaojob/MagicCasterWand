@@ -2,7 +2,15 @@ import spells from "./spells.js";
 const spellGridElement = document.querySelector(".spells-grid");
 
 function addSpellsToGrid() {
-  spells.forEach((spell) => {
+  const spellsByName = spells.sort(function (a, b) {
+    return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+  });
+
+  const spellsByDifficulty = spellsByName.sort(function (a, b) {
+    return a.difficulty - b.difficulty;
+  });
+
+  spellsByDifficulty.forEach((spell) => {
     const spellCardDiv = document.createElement("div");
     spellCardDiv.classList.add("spell-card");
     spellCardDiv.style.setProperty("--color", spell.color);
