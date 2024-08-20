@@ -98,6 +98,14 @@ main {
   bottom: 10px;
 }
 
+/* General */
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+  font-size: inherit;
+}
+
 @media screen and (max-width: 800px) {
   header .cinzel {
     font-size: 2em;
