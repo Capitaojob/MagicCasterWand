@@ -2,25 +2,28 @@ import { recognition, setLanguage } from "./speechRecognition.js";
 import playSpellSound, { playWandSound } from "./sounds.js";
 import toggleTorch from "./flashlightHandler.js";
 import startTracking from "./movementTracking.js";
+import setWandStyles, { changeWandStyle, currentWand } from "./wandRender.js";
 
 export const debugMode = false;
-const wand = document.getElementById("wand");
-const wandGlow = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+const wandClassElement = document.querySelector(".wand");
 export const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 export let isRecording = false;
 export let isCurrentSpellContinuous = false;
 
 // General Initializations
 window.onload = function () {
+  setWandStyles();
   setLanguage();
 
-  wand.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
+  wandClassElement.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
     readyWand();
   });
 
-  wand.addEventListener("contextmenu", (e) => {
+  wandClassElement.addEventListener("contextmenu", (e) => {
     e.preventDefault();
   });
+
+  document.getElementById("change-wand").addEventListener("click", changeWandStyle);
 };
 
 function readyWand() {
@@ -41,7 +44,8 @@ function readyWand() {
 }
 
 function setWandAtReadyVisuals() {
-  wandGlow.forEach((glowElement) => {
+  const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+  glowingWandElements.forEach((glowElement) => {
     glowElement.style.fill = "#00f7ff";
     glowElement.style.filter = "drop-shadow( 0 0 10px #00f7ffbb)";
   });
@@ -49,10 +53,12 @@ function setWandAtReadyVisuals() {
 
 export function resetWand() {
   setTimeout(() => {
-    wandGlow[1].style.opacity = 0;
+    const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+    glowingWandElements[1].style.opacity = 0;
 
-    wandGlow.forEach((glowElement) => {
-      glowElement.style.fill = "#00a2aa";
+    glowingWandElements.forEach((glowElement) => {
+      // glowElement.style.fill = "#00a2aa";
+      glowElement.style.fill = currentWand.color;
       glowElement.style.filter = "none";
       document.getElementById("final-spell").textContent = "";
     });
@@ -63,13 +69,20 @@ export function castSpell(spell) {
   console.log(`Feitiço reconhecido: ${spell.name}`);
   document.getElementById("final-spell").textContent = `${spell.name}!`;
 
-  wandGlow[1].style.opacity = 1;
+  const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+  glowingWandElements[1].style.opacity = 1;
 
-  wandGlow[0].style.fill = spell.color;
-  wandGlow[0].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
+  glowingWandElements.forEach((glowingElement) => {
+    const color = spell.color == "base" ? currentWand.color : spell.color;
 
-  wandGlow[1].style.fill = spell.color;
-  wandGlow[1].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
+    glowingElement.style.fill = color;
+    glowingElement.style.filter = `drop-shadow( 0 0 20px ${color})`;
+  });
+  // glowingWandElements[0].style.fill = spell.color;
+  // glowingWandElements[0].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
+
+  // glowingWandElements[1].style.fill = spell.color;
+  // glowingWandElements[1].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
 
   isCurrentSpellContinuous = spell.continuum;
 
