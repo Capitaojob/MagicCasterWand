@@ -46,11 +46,10 @@ h3 {
 .spell-card:hover {
 	transform: scale(1.1);
 	box-shadow: 0 0 10px 10px var(--color);
-	background-color: #000;
 	z-index: 2;
 }
 
-.spell-card:hover + * {
+/* .spell-card:hover + * {
 	transform: scale(1.03);
 	box-shadow: 0 0 2px 2px #0000005e;
 }
@@ -58,7 +57,7 @@ h3 {
 .spell-card:has(+ *:hover) {
 	transform: scale(1.03);
 	box-shadow: 0 0 2px 2px #0000005e;
-}
+} */
 
 .spell-card > * {
 	padding: 3px;
