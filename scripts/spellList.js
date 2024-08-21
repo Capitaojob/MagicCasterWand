@@ -2,60 +2,60 @@ import spells from "./spells.js";
 const spellGridElement = document.querySelector(".spells-grid");
 
 function addSpellsToGrid() {
-  const spellsByName = spells.sort(function (a, b) {
-    return a.name.charCodeAt(0) - b.name.charCodeAt(0);
-  });
+	const spellsByName = spells.sort(function (a, b) {
+		return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+	});
 
-  const spellsByDifficulty = spellsByName.sort(function (a, b) {
-    return a.difficulty - b.difficulty;
-  });
+	const spellsByDifficulty = spellsByName.sort(function (a, b) {
+		return a.difficulty - b.difficulty;
+	});
 
-  spellsByDifficulty.forEach((spell) => {
-    const spellCardDiv = document.createElement("div");
-    spellCardDiv.classList.add("spell-card");
-    spellCardDiv.style.setProperty("--color", spell.color);
-    spellCardDiv.style.setProperty("--transparent-color", `${spell.color}22`);
+	spellsByDifficulty.forEach((spell) => {
+		const spellCardDiv = document.createElement("div");
+		spellCardDiv.classList.add("spell-card");
+		spellCardDiv.style.setProperty("--color", spell.color);
+		spellCardDiv.style.setProperty("--transparent-color", `${spell.color}22`);
 
-    const spellNameHeading = document.createElement("h4");
-    spellNameHeading.textContent = spell.name;
+		const spellNameHeading = document.createElement("h4");
+		spellNameHeading.textContent = spell.name;
 
-    spellCardDiv.appendChild(spellNameHeading);
+		spellCardDiv.appendChild(spellNameHeading);
 
-    const spellDescription = document.createElement("p");
-    spellDescription.textContent = spell.description;
-    spellDescription.classList.add("description");
+		const spellDescription = document.createElement("p");
+		spellDescription.textContent = spell.description + "\n\n" + spell.effect;
+		spellDescription.classList.add("description");
 
-    spellCardDiv.appendChild(spellDescription);
+		spellCardDiv.appendChild(spellDescription);
 
-    const spellDifficulty = document.createElement("h5");
-    spellDifficulty.textContent = "Difficulty: " + mapSpellDifficulty(spell.difficulty);
-    spellDifficulty.classList.add("difficulty");
+		const spellDifficulty = document.createElement("h5");
+		spellDifficulty.textContent = "Difficulty: " + mapSpellDifficulty(spell.difficulty);
+		spellDifficulty.classList.add("difficulty");
 
-    spellCardDiv.appendChild(spellDifficulty);
+		spellCardDiv.appendChild(spellDifficulty);
 
-    const spellType = document.createElement("h5");
-    spellType.textContent = spell.type;
-    spellType.classList.add("type");
+		const spellType = document.createElement("h5");
+		spellType.textContent = spell.type;
+		spellType.classList.add("type");
 
-    spellCardDiv.appendChild(spellType);
+		spellCardDiv.appendChild(spellType);
 
-    spellGridElement.appendChild(spellCardDiv);
-  });
+		spellGridElement.appendChild(spellCardDiv);
+	});
 }
 
 function mapSpellDifficulty(difficulty) {
-  switch (difficulty) {
-    case 0:
-      return "Easy";
-    case 1:
-      return "Medium";
-    case 2:
-      return "Difficult";
-    case 3:
-      return "Very Difficult";
-    default:
-      return "Unkown";
-  }
+	switch (difficulty) {
+		case 0:
+			return "Easy";
+		case 1:
+			return "Medium";
+		case 2:
+			return "Difficult";
+		case 3:
+			return "Very Difficult";
+		default:
+			return "Unkown";
+	}
 }
 
 addSpellsToGrid();

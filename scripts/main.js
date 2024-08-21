@@ -12,95 +12,89 @@ export let isCurrentSpellContinuous = false;
 
 // General Initializations
 window.onload = function () {
-  setWandStyles();
-  setLanguage();
+	setLanguage();
+	setWandStyles();
 
-  wandClassElement.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
-    readyWand();
-  });
+	wandClassElement.addEventListener(isMobileDevice ? "touchstart" : "mousedown", () => {
+		readyWand();
+	});
 
-  wandClassElement.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-  });
+	wandClassElement.addEventListener("contextmenu", (e) => {
+		e.preventDefault();
+	});
 
-  document.getElementById("change-wand").addEventListener("click", changeWandStyle);
+	document.getElementById("change-wand").addEventListener("click", changeWandStyle);
 };
 
 function readyWand() {
-  if (isRecording) return;
+	if (isRecording) return;
 
-  if (!isCurrentSpellContinuous) setWandAtReadyVisuals();
-  if (!isMobileDevice) playWandSound("wand-ready");
+	if (!isCurrentSpellContinuous) setWandAtReadyVisuals();
+	if (!isMobileDevice) playWandSound("wand-ready");
 
-  // Restarts speech recognition
-  recognition.stop();
-  recognition.start();
+	// Restarts speech recognition
+	recognition.stop();
+	recognition.start();
 
-  // Sets control variable
-  setIsRecording(true);
+	// Sets control variable
+	setIsRecording(true);
 
-  // Tracks movement if is mobileDevice
-  if (isMobileDevice) startTracking();
+	// Tracks movement if is mobileDevice
+	if (isMobileDevice) startTracking();
 }
 
 function setWandAtReadyVisuals() {
-  const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
-  glowingWandElements.forEach((glowElement) => {
-    glowElement.style.fill = "#00f7ff";
-    glowElement.style.filter = "drop-shadow( 0 0 10px #00f7ffbb)";
-  });
+	const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+	glowingWandElements.forEach((glowElement) => {
+		glowElement.style.fill = currentWand.color;
+		glowElement.style.filter = `drop-shadow( 0 0 10px ${currentWand.color}bb)`;
+	});
 }
 
 export function resetWand() {
-  setTimeout(() => {
-    const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
-    glowingWandElements[1].style.opacity = 0;
+	setTimeout(() => {
+		const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+		glowingWandElements[1].style.opacity = 0;
 
-    glowingWandElements.forEach((glowElement) => {
-      // glowElement.style.fill = "#00a2aa";
-      glowElement.style.fill = currentWand.color;
-      glowElement.style.filter = "none";
-      document.getElementById("final-spell").textContent = "";
-    });
-  }, 400);
+		glowingWandElements.forEach((glowElement) => {
+			glowElement.style.fill = currentWand.color + "55";
+			glowElement.style.filter = "none";
+			document.getElementById("final-spell").textContent = "";
+		});
+	}, 400);
 }
 
 export function castSpell(spell) {
-  console.log(`Feitiço reconhecido: ${spell.name}`);
-  document.getElementById("final-spell").textContent = `${spell.name}!`;
+	console.log(`Feitiço reconhecido: ${spell.name}`);
+	document.getElementById("final-spell").textContent = `${spell.name}!`;
 
-  const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
-  glowingWandElements[1].style.opacity = 1;
+	const glowingWandElements = [document.getElementById("idle-glow"), document.getElementById("full-glow")];
+	glowingWandElements[1].style.opacity = 1;
 
-  glowingWandElements.forEach((glowingElement) => {
-    const color = spell.color == "base" ? currentWand.color : spell.color;
+	glowingWandElements.forEach((glowingElement, index) => {
+		const color = spell.color == "base" ? currentWand.color : spell.color;
 
-    glowingElement.style.fill = color;
-    glowingElement.style.filter = `drop-shadow( 0 0 20px ${color})`;
-  });
-  // glowingWandElements[0].style.fill = spell.color;
-  // glowingWandElements[0].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
+		glowingElement.style.fill = color;
+		glowingElement.style.filter = `drop-shadow( 0 0 ${10 * (index + 1)}px ${color})`;
+	});
 
-  // glowingWandElements[1].style.fill = spell.color;
-  // glowingWandElements[1].style.filter = `drop-shadow( 0 0 20px ${spell.color})`;
+	isCurrentSpellContinuous = spell.continuum;
 
-  isCurrentSpellContinuous = spell.continuum;
+	playSpellSound(spell);
 
-  playSpellSound(spell);
+	// Toggles phone flashlight
+	if (isMobileDevice) {
+		if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
+		if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
+	}
 
-  // Toggles phone flashlight
-  if (isMobileDevice) {
-    if (spell.name.toLowerCase().includes("lumos")) toggleTorch(true);
-    if (spell.name.toLowerCase().includes("nox")) toggleTorch(false);
-  }
-
-  if (!isCurrentSpellContinuous) {
-    setTimeout(() => {
-      resetWand();
-    }, 1200);
-  }
+	if (!isCurrentSpellContinuous) {
+		setTimeout(() => {
+			resetWand();
+		}, 1200);
+	}
 }
 
 export function setIsRecording(value) {
-  isRecording = value;
+	isRecording = value;
 }

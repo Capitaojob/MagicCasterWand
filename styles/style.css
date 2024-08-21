@@ -1,81 +1,81 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  color: #fff;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	color: #fff;
 }
 
 .cinzel {
-  font-family: "Cinzel", system-ui;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+	font-family: "Cinzel", system-ui;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
 }
 
 body {
-  position: relative;
-  width: 100%;
-  height: 100vh;
+	position: relative;
+	width: 100%;
+	height: 100vh;
 }
 
 header {
-  position: relative;
-  width: 100%;
-  height: 100px;
-  padding: 20px;
-  text-align: center;
-  background-color: rgb(65, 29, 85);
-  color: #fff;
+	position: relative;
+	width: 100%;
+	height: 100px;
+	padding: 20px;
+	text-align: center;
+	background-color: rgb(65, 29, 85);
+	color: #fff;
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 }
 
 header .cinzel {
-  font-size: 3em;
+	font-size: 3em;
 }
 
 #change-wand {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  font-size: 1.8em;
-  cursor: pointer;
-  transition: 0.4s;
+	background-color: transparent;
+	border: none;
+	color: #fff;
+	position: absolute;
+	top: 50%;
+	right: 20px;
+	transform: translateY(-50%);
+	font-size: 1.8em;
+	cursor: pointer;
+	transition: 0.4s;
 }
 
 #change-wand:hover {
-  filter: drop-shadow(0 0 10px #dfdfdf);
+	filter: drop-shadow(0 0 10px #dfdfdf);
 }
 
 main {
-  position: relative;
-  width: 100%;
-  height: calc(100% - 100px);
-  background-color: rgb(25, 20, 26);
-  overflow: hidden;
+	position: relative;
+	width: 100%;
+	height: calc(100% - 100px);
+	background-color: rgb(25, 20, 26);
+	overflow: hidden;
 }
 
 .wand {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 /* .wand #idle-glow,
@@ -89,65 +89,69 @@ main {
 .wand #idle-glow,
 .wand #full-glow,
 .wand #overlay {
-  height: 100%;
-  max-width: 90%;
-  width: fit-content;
-  object-fit: contain;
-  transition: 0.4s;
+	height: 100%;
+	max-width: 90%;
+	width: fit-content;
+	object-fit: contain;
+	transition: 0.4s;
 }
 
 .wand #idle-glow,
 .wand #full-glow,
 .wand #overlay {
-  position: absolute;
-  fill: #00a2aa; /* 00f7ff */
-  /* -webkit-filter: drop-shadow(0 0 10px #000); */
-  /* filter: drop-shadow(0 0 10px #000); */
-  user-select: none;
-  pointer-events: none;
+	position: absolute;
+	fill: #1f1f1f; /* 00f7ff */
+	/* -webkit-filter: drop-shadow(0 0 10px #000); */
+	/* filter: drop-shadow(0 0 10px #000); */
+	user-select: none;
+	pointer-events: none;
 }
 
 .wand #overlay {
-  z-index: 1;
-  transform: translateY(-4px);
+	z-index: 1;
+	transform: translateY(-4px);
 }
 
 .wand #full-glow {
-  opacity: 0;
+	opacity: 0;
 }
 
 .results {
-  width: 100%;
+	width: 100%;
 }
 
 #final-spell {
-  text-align: center;
+	text-align: center;
 }
 
 #language {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
 }
 
 /* General */
 
 a {
-  color: inherit;
-  text-decoration: inherit;
-  font-size: inherit;
+	color: inherit;
+	text-decoration: inherit;
+	font-size: inherit;
 }
 
 @media screen and (max-width: 800px) {
-  header .cinzel {
-    font-size: 2em;
-  }
+	header h1 {
+		width: 80%;
+	}
 
-  .wand #wand,
-  .wand #idle-glow,
-  .wand #full-glow,
-  .wand #overlay {
-    max-width: 100%;
-    transform: rotate(90deg);
-  }
+	header .cinzel {
+		font-size: 1.5em;
+	}
+
+	.wand #wand,
+	.wand #idle-glow,
+	.wand #full-glow,
+	.wand #overlay {
+		max-width: 100%;
+		transform: rotate(90deg);
+	}
 }
