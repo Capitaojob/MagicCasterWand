@@ -60,7 +60,12 @@ export default function fixSpelling(spell, language) {
         spell = "protego horribilis";
         break;
       case "bombarda máxima":
+      case "bombardier máxima":
         spell = "bombarda maxima";
+        break;
+      case "bombard":
+      case "bombardier":
+        spell = "bombarda";
         break;
       case "protejo":
         spell = "protego";

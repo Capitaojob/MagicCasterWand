@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Magic Caster Wand</title>
-		<link rel="shortcut icon" href="./images/logo.ico" type="image/x-icon" />
-		<!-- <script src="./scripts/wandRender.js" defer></script> -->
-		<script type="module" src="scripts/main.js" defer></script>
-		<script src="https://kit.fontawesome.com/a6a7a72d34.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="styles/style.css" />
-	</head>
-	<body>
-		<header>
-			<h1 class="cinzel"><a href="./pages/spells.html">Magic Caster Wand</a></h1>
-			<button id="change-wand"><i class="fa-solid fa-right-left"></i></button>
-		</header>
-		<main>
-			<div class="wand">
-				<img id="overlay" src="" alt="Wand Overlay" />
-				<img id="wand" src="" alt="wand" />
-				<svg id="idle-glow"></svg>
-				<svg id="full-glow"></svg>
-			</div>
-			<div class="results">
-				<div id="wand-movement"></div>
-				<h2 id="final-spell" class="cinzel"></h2>
-			</div>
-		</main>
-		<p id="language">en-US</p>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magic Caster Wand</title>
+    <link rel="shortcut icon" href="./images/logo.ico" type="image/x-icon" />
+    <script type="module" src="scripts/main.js" defer></script>
+    <script src="https://kit.fontawesome.com/a6a7a72d34.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="cinzel"><a href="./pages/spells.html">Magic Caster Wand</a></h1>
+      <button id="change-wand"><i class="fa-solid fa-right-left"></i></button>
+    </header>
+    <main>
+      <h2 id="wand-name" class="wand-name"></h2>
+      <div class="wand">
+        <img id="overlay" src="" alt="Wand Overlay" />
+        <img id="wand" src="" alt="wand" />
+        <svg id="idle-glow"></svg>
+        <svg id="full-glow"></svg>
+      </div>
+      <div class="results">
+        <div id="wand-movement"></div>
+        <h2 id="final-spell" class="cinzel"></h2>
+      </div>
+    </main>
+    <p id="language">en-US</p>
+  </body>
 </html>
